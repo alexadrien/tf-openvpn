@@ -59,8 +59,5 @@ resource "null_resource" "provisioner" {
 
 // OUTPUTS
 output "connect" {
-  value = "https://${aws_instance.main.public_ip}:943/admin"
+  value = "https://${aws_instance.main.public_ip}:943"
 }
-//output "file" {
-//  value = "${data.template_file.config_file.rendered}"
-//}
