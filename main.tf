@@ -19,19 +19,11 @@ resource "aws_security_group" "main" {
   name        = "allow_openvpn_port"
   description = "Allow 943 for OpenVPN connecion"
 }
-resource "aws_security_group_rule" "ingress_port_22" {
-  from_port = 22
-  protocol = "tcp"
+resource "aws_security_group_rule" "ingress_all" {
+  from_port = 0
+  protocol = "-1"
   security_group_id = "${aws_security_group.main.id}"
-  to_port = 22
-  type = "ingress"
-  cidr_blocks = ["0.0.0.0/0"]
-}
-resource "aws_security_group_rule" "ingress_port_943" {
-  from_port = 943
-  protocol = "tcp"
-  security_group_id = "${aws_security_group.main.id}"
-  to_port = 943
+  to_port = 0
   type = "ingress"
   cidr_blocks = ["0.0.0.0/0"]
 }
@@ -43,7 +35,7 @@ resource "aws_security_group_rule" "egress_all" {
   type = "egress"
   cidr_blocks = ["0.0.0.0/0"]
 }
-resource "null_resource" "provisioner3" {
+resource "null_resource" "provisioner" {
   connection {
     type = "ssh"
     host = "${aws_instance.main.public_ip}"

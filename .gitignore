@@ -1,0 +1,7 @@
+.idea/
+*.log
+key
+key.pub
+terraform.tfstate
+terraform.tfstate.backup
+.terraform/

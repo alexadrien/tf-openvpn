@@ -1,2 +1,39 @@
 # tf-openvpn
-Terraform project to deploy an EC2 with OpenVPN on AWs
+This project is intended to help people wanting to setup an OpenVPN instance in AWs.
+
+## Dependencies
+
+Please follow dependencies links to install them.
+ 
+- make
+- [terraform](https://www.terraform.io/downloads.html)
+- [AWS CLI with credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html)
+- ssh-keygen
+
+## Install & Run 
+
+Run that command :
+
+```bash
+make magic
+```
+
+### Re-deploy
+
+````bash
+make deploy
+````
+
+### Re-install
+
+````bash
+make install
+````
+
+### Uninstall
+
+Run this command :
+
+````bash
+make uninstall
+````
