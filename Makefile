@@ -1,6 +1,6 @@
 generate_key:
-	rm key
-	rm key.pub
+	rm -f key
+	rm -f key.pub
 	ssh-keygen -f ./key -P "" -N ""
 
 init:
@@ -24,9 +24,7 @@ deploy:
 	make apply > apply.log
 
 display_information:
-	terraform output connect
-	echo "username : openvpn"
-	echo "password : openvpn"
+	sh display.sh
 
 uninstall:
 	make destroy > destroy.log
