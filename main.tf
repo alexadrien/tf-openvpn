@@ -6,7 +6,7 @@ provider "aws" {
 
 // RESOURCES
 resource "aws_key_pair" "main" {
-  public_key = "${file("~/.ssh/id_rsa.pub")}"
+  public_key = "${file("key.pub")}"
 }
 resource "aws_instance" "main" {
   ami = "ami-0cfee17793b08a293"
@@ -41,7 +41,7 @@ resource "null_resource" "provisioner" {
     host = "${aws_instance.main.public_ip}"
     user = "ubuntu"
     port = "22"
-    private_key = "${file("~/.ssh/id_rsa")}"
+    private_key = "${file("key")}"
   }
   provisioner "file" {
     source      = "install.sh"
@@ -49,7 +49,10 @@ resource "null_resource" "provisioner" {
   }
   provisioner "remote-exec" {
     inline = [
-      "sudo sh /home/ubuntu/install.sh"
+      "sudo sh /home/ubuntu/install.sh",
+      "sudo /usr/local/openvpn_as/scripts/sacli --key \"host.name\" --value \"${aws_instance.main.public_ip}\" ConfigPut",
+      "sudo /usr/local/openvpn_as/scripts/sacli --key \"host.name\" --value \"${aws_instance.main.public_ip}\" Stop",
+      "sudo /usr/local/openvpn_as/scripts/sacli --key \"host.name\" --value \"${aws_instance.main.public_ip}\" Start"
     ]
   }
 }
@@ -58,3 +61,6 @@ resource "null_resource" "provisioner" {
 output "connect" {
   value = "https://${aws_instance.main.public_ip}:943/admin"
 }
+//output "file" {
+//  value = "${data.template_file.config_file.rendered}"
+//}
