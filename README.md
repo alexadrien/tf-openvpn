@@ -7,7 +7,7 @@ Please follow dependencies links to install them.
  
 - make
 - [terraform](https://www.terraform.io/downloads.html)
-- [AWS CLI with credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html)
+- [AWS CLI with credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
 - ssh-keygen
 
 ## Install & Run 
