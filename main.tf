@@ -11,7 +11,7 @@ resource "aws_key_pair" "main" {
 resource "aws_instance" "main" {
   ami = "ami-0cfee17793b08a293"
   instance_type = "t2.micro"
-  associate_public_ip_address = true
+//  associate_public_ip_address = true
   key_name = "${aws_key_pair.main.key_name}"
   security_groups = ["allow_openvpn_port"]
 }
@@ -35,6 +35,14 @@ resource "aws_security_group_rule" "ingress_port_943" {
   type = "ingress"
   cidr_blocks = ["0.0.0.0/0"]
 }
+resource "aws_security_group_rule" "egress_all" {
+  from_port = 0
+  protocol = "-1"
+  security_group_id = "${aws_security_group.main.id}"
+  to_port = 0
+  type = "egress"
+  cidr_blocks = ["0.0.0.0/0"]
+}
 resource "null_resource" "provisioner3" {
   connection {
     type = "ssh"
@@ -55,9 +63,6 @@ resource "null_resource" "provisioner3" {
 }
 
 // OUTPUTS
-output "key_name" {
-  value = "${aws_key_pair.main.key_name}"
-}
-output "public_ip" {
-  value = "ssh ubuntu@${aws_instance.main.public_ip}"
+output "connect" {
+  value = "https://${aws_instance.main.public_ip}:943/admin"
 }
