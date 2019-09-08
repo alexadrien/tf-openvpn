@@ -30,9 +30,7 @@ uninstall:
 	make destroy > destroy.log
 
 magic:
-	make install
-	make deploy
-	make display_information
+	sh magic.sh
 
 save:
 	git add .

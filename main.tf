@@ -13,7 +13,7 @@ resource "aws_instance" "main" {
   instance_type = "t2.micro"
 //  associate_public_ip_address = true
   key_name = "${aws_key_pair.main.key_name}"
-  security_groups = ["allow_openvpn_port"]
+  security_groups = ["${aws_security_group.main.name}"]
 }
 resource "aws_security_group" "main" {
   name        = "allow_openvpn_port"
@@ -35,7 +35,7 @@ resource "aws_security_group_rule" "egress_all" {
   type = "egress"
   cidr_blocks = ["0.0.0.0/0"]
 }
-resource "null_resource" "provisioner" {
+resource "null_resource" "provisioner_install" {
   connection {
     type = "ssh"
     host = "${aws_instance.main.public_ip}"
@@ -49,7 +49,20 @@ resource "null_resource" "provisioner" {
   }
   provisioner "remote-exec" {
     inline = [
-      "sudo sh /home/ubuntu/install.sh",
+      "sudo sh /home/ubuntu/install.sh"
+    ]
+  }
+}
+resource "null_resource" "provisioner_config" {
+  connection {
+    type = "ssh"
+    host = "${aws_instance.main.public_ip}"
+    user = "ubuntu"
+    port = "22"
+    private_key = "${file("key")}"
+  }
+  provisioner "remote-exec" {
+    inline = [
       "sudo /usr/local/openvpn_as/scripts/sacli --key \"host.name\" --value \"${aws_instance.main.public_ip}\" ConfigPut",
       "sudo /usr/local/openvpn_as/scripts/sacli --key \"host.name\" --value \"${aws_instance.main.public_ip}\" Stop",
       "sudo /usr/local/openvpn_as/scripts/sacli --key \"host.name\" --value \"${aws_instance.main.public_ip}\" Start"

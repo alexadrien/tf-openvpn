@@ -15,7 +15,7 @@ Please follow dependencies links to install them.
 Run that command :
 
 ```bash
-make magic
+sh ./magic.sh
 ```
 
 ### Re-deploy
