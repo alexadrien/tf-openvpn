@@ -1,8 +1,8 @@
 // PROVIDERS
 
 provider "aws" {
-  region = "eu-west-2"
-//  region = "us-east-1"
+//  region = "eu-west-2"
+  region = "us-east-1"
 }
 // RESOURCES
 resource "aws_key_pair" "main" {
@@ -29,8 +29,8 @@ resource "aws_security_group_rule" "egress_all" {
   cidr_blocks = ["0.0.0.0/0"]
 }
 resource "aws_instance" "main" {
-  ami = "ami-0b1912235a9e70540"
-//  ami = "ami-039a49e70ea773ffc"
+//  ami = "ami-0b1912235a9e70540"
+  ami = "ami-039a49e70ea773ffc"
   instance_type = "t2.micro"
 //  associate_public_ip_address = true
   key_name = "${aws_key_pair.main.key_name}"
